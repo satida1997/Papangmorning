@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Quiz - Self Introduction & Morning Routine N’Papang</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    text-align: center;
+    color: #333;
+    padding: 20px;
+}
+.quiz-container {
+    max-width: 700px;
+    background: #fff;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+.question {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+.choices button {
+    width: 100%;
+    padding: 12px;
+    margin: 6px 0;
+    border: 2px solid #0077cc;
+    border-radius: 8px;
+    background-color: #e0f7ff;
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: left;
+    font-size: 16px;
+}
+.choices button:hover {
+    background-color: #b3e5fc;
+}
+#result {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+#score {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #007700;
+}
+</style>
+</head>
+<body>
+
+<h1>English Quiz: Self Introduction & Morning Routine</h1>
+<div class="quiz-container" id="quiz-container"></div>
+<div id="result"></div>
+<div id="score"></div>
+
+<script>
+const quizData = [
+  { question: "How are you?", choices: ["I’m fine, thank you. What about you?", "I’m fine too, I just woke up", "I’m good, I feel a little sleepy", "I’m okay, just ate breakfast"], answer: "I’m fine, thank you. and you?" },
+  { question: "What is your name?", choices: ["My name is Pariyagon Wongyat", "I am called Pariyagon, nice to meet you", "People call me Pariyagon Wongyat", "I’m Pariyagon Wongyat, and you?"], answer: "My name is Pariyagon Wongyat" },
+  { question: "Nice to meet you.", choices: ["Nice to meet you too", "Nice meeting you, how are you?", "Pleased to meet you", "Hello, nice to see you"], answer: "Nice to meet you too" },
+  { question: "How old are you?", choices: ["I am 12 years old", "I’m twelve years old today", "I turned 12 this year", "I will be 12 next year"], answer: "I am 12 years old" },
+  { question: "What would you like to do in your free time?", choices: ["I like to play game", "I enjoy playing games sometimes", "I like to play outside after school", "I usually spend my free time resting"], answer: "I like to play game" },
+  { question: "What kind of games do you like to play?", choices: ["I like to play Roblox", "I like to sleep in the morning", "I like to study all day", "I like to clean my room"], answer: "I like to play Roblox" },
+  { question: "What is the map that you like the most?", choices: ["I like Hunty Zombie", "I enjoy exploring other maps", "I like playing outdoors", "I prefer story games"], answer: "I like Hunty Zombie" },
+  { question: "What is your hobby?", choices: ["My hobby is drawing", "I spend most time sleeping", "I like cleaning the room", "I enjoy eating snacks"], answer: "My hobby is drawing" },
+  { question: "Where are you from?", choices: ["I am from Thailand", "I am from Japan", "I am from USA", "I am from China"], answer: "I am from Thailand" },
+  { question: "Which part of Thailand do you live in?", choices: ["I live in the middle part of Thailand Suphanburi", "I live in Bangkok", "I live in Chiang Mai", "I live in Phuket"], answer: "I live in the middle part of Thailand Suphanburi" },
+  { question: "Where do you study?", choices: ["I study at Sa-Nguan Ying School", "I study at Bangkok School", "I study at Chiang Mai School", "I study at Phuket School"], answer: "I study at Sa-Nguan Ying School" },
+  { question: "What is your favorite subject?", choices: ["My favorite subject is mathematics", "My favorite subject is English", "My favorite subject is science", "My favorite subject is art"], answer: "My favorite subject is mathematics" },
+  { question: "Do you have brothers or sisters?", choices: ["Yes, I have one younger brother", "No, I don’t have any brothers or sisters", "Yes, I have two sisters", "Yes, I have one older brother"], answer: "Yes, I have one younger brother" },
+  { question: "What is your favorite food?", choices: ["My favorite food is fried chicken", "My favorite food is pizza", "My favorite food is noodles", "My favorite food is salad"], answer: "My favorite food is fried chicken" },
+  { question: "Can I have your phone number?", choices: ["Sorry, I can’t give my phone number", "Yes, it is 0812345678", "Yes, it is 0912345678", "Yes, it is 0898765432"], answer: "Sorry, I can’t give my phone number" },
+  { question: "How do you go to school?", choices: ["I go to school by school van", "I walk to school", "I ride a bicycle", "I take the train"], answer: "I go to school by school van" },
+  { question: "Do you have many friends in your school?", choices: ["Yes, I have many friends", "No, I have a few friends", "I have no friends", "I only have one friend"], answer: "Yes, I have many friends" },
+  { question: "What time do you wake up?", choices: ["I wake up at 6:30 in the morning", "I wake up at 5:30 in the morning", "I wake up at 7:30 in the morning", "I wake up at 8:00 in the morning"], answer: "I wake up at 5:30 in the morning" },
+  { question: "Do you feel sleepy in the morning?", choices: ["Yes, sometimes I feel sleepy", "No, I am always active", "I always feel happy", "I feel hungry in the morning"], answer: "Yes, sometimes I feel sleepy" },
+  { question: "What do you do after you wake up?", choices: ["I brush my teeth and wash my face", "I eat lunch immediately", "I sleep again after waking up", "I go to school immediately"], answer: "I brush my teeth and wash my face" },
+  { question: "Do you take a shower in the morning?", choices: ["Yes, I take a shower", "No, I sleep again", "I take a shower at night", "I never take a shower"], answer: "Yes, I take a shower" },
+  { question: "What clothes do you wear to school?", choices: ["I wear my school uniform", "I wear pajamas", "I wear casual clothes", "I wear sports clothes"], answer: "I wear my school uniform" },
+  { question: "Do you eat breakfast every day?", choices: ["Yes, I always eat breakfast", "No, I skip breakfast", "I only drink water", "I eat dinner in the morning"], answer: "Yes, I always eat breakfast" },
+  { question: "What do you usually eat for breakfast?", choices: ["I eat bread, eggs, and sometimes cereal", "I eat pizza and burger", "I eat noodles", "I eat only snacks"], answer: "I eat bread, eggs, and sometimes cereal" },
+  { question: "Do you drink milk or juice in the morning?", choices: ["I drink milk", "I drink soda", "I drink coffee", "I drink tea"], answer: "I drink milk" },
+  { question: "What do you put in your school bag?", choices: ["I put my books, pens, and homework in my bag", "I put only my lunch in my bag", "I put my toys in my bag", "I put nothing in my bag"], answer: "I put my books, pens, and homework in my bag" },
+  { question: "What time do you go to school?", choices: ["I go to school at 7:20", "I go to school at 6:30", "I go to school at 8:30", "I go to school at 7:50"], answer: "I go to school at 7:20" },
+  { question: "Do you walk to school or take the bus?", choices: ["I walk to school with my friends", "I go alone", "I ride a bicycle", "I take the train"], answer: "I walk to school with my friends" },
+  { question: "How do you feel when you arrive at school?", choices: ["I feel happy and ready to learn", "I feel sleepy and bored", "I feel angry", "I feel tired"], answer: "I feel happy and ready to learn" }
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+function loadQuestion() {
+  const container = document.getElementById("quiz-container");
+  container.innerHTML = "";
+  const q = quizData[currentQuestion];
+
+  const questionEl = document.createElement("div");
+  questionEl.className = "question";
+  questionEl.innerText = `${currentQuestion+1}. ${q.question}`;
+  container.appendChild(questionEl);
+
+  const choicesDiv = document.createElement("div");
+  choicesDiv.className = "choices";
+
+  // สลับตัวเลือกแบบสุ่ม
+  const shuffledChoices = [...q.choices].sort(() => Math.random() - 0.5);
+
+  shuffledChoices.forEach(choice => {
+    const btn = document.createElement("button");
+    btn.innerText = choice;
+    btn.onclick = () => checkAnswer(choice);
+    choicesDiv.appendChild(btn);
+  });
+
+  container.appendChild(choicesDiv);
+}
+
+function checkAnswer(choice) {
+  const result = document.getElementById("result");
+  if(choice === quizData[currentQuestion].answer){
+    result.innerText = "Correct ✅";
+    result.style.color = "#007700";
+    score++;
+  } else {
+    result.innerText = "Wrong ❌. Correct answer: " + quizData[currentQuestion].answer;
+    result.style.color = "#d32f2f";
+  }
+  
+  currentQuestion++;
+  if(currentQuestion < quizData.length){
+    setTimeout(() => {
+      result.innerText = "";
+      loadQuestion();
+    }, 1500);
+  } else {
+    setTimeout(() => {
+      document.getElementById("quiz-container").innerHTML = "<h2>Quiz finished!</h2>";
+      result.innerText = "";
+      document.getElementById("score").innerText = `Your score: ${score} / ${quizData.length}`;
+    }, 1500);
+  }
+}
+
+loadQuestion();
+</script>
+
+</body>
